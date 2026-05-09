@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}{{ business.name }} — Book an Appointment{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+
+    <!-- Business Header -->
+    <div class="bg-white rounded-xl shadow-sm p-8 mb-6">
+        <div class="flex items-center gap-6">
+            {% if business.logo %}
+                <img src="{{ business.logo.url }}" 
+                     class="w-20 h-20 rounded-full object-cover border-2 border-indigo-100">
+            {% else %}
+                <div class="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center">
+                    <span class="text-3xl font-bold text-indigo-600">
+                        {{ business.name|first|upper }}
+                    </span>
+                </div>
+            {% endif %}
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">{{ business.name }}</h1>
+                {% if business.description %}
+                    <p class="text-gray-500 mt-1">{{ business.description }}</p>
+                {% endif %}
+                {% if business.address %}
+                    <p class="text-sm text-gray-400 mt-1">📍 {{ business.address }}</p>
+                {% endif %}
+                {% if business.phone %}
+                    <p class="text-sm text-gray-400">📞 {{ business.phone }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Availability -->
+    {% if availability %}
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+        <h2 class="text-lg font-semibold mb-4">Working Hours</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {% for slot in availability %}
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                    <p class="text-sm font-medium text-gray-700">{{ slot.get_day_of_week_display }}</p>
+                    <p class="text-xs text-gray-500 mt-1">
+                        {{ slot.start_time|time:"H:i" }} — {{ slot.end_time|time:"H:i" }}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Services -->
+    <div class="bg-white rounded-xl shadow-sm p-6">
+        <h2 class="text-lg font-semibold mb-4">Our Services</h2>
+        {% if services %}
+            <div class="space-y-4">
+                {% for service in services %}
+                    <div class="flex items-center justify-between border border-gray-100 rounded-xl p-5 hover:border-indigo-200 hover:shadow-sm transition">
+                        <div>
+                            <h3 class="font-semibold text-gray-900">{{ service.name }}</h3>
+                            {% if service.description %}
+                                <p class="text-sm text-gray-500 mt-1">{{ service.description }}</p>
+                            {% endif %}
+                            <p class="text-sm text-gray-400 mt-1">⏱ {{ service.duration }} minutes</p>
+                        </div>
+                        <div class="text-right ml-4">
+                            <p class="text-xl font-bold text-indigo-600">${{ service.price }}</p>
+                            <a href="{% url 'bookings:book_service' business.slug service.id %}"
+                               class="mt-2 block bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 text-sm font-medium">
+                                Book Now
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-gray-400 text-center py-8">No services available yet.</p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Bookly — Online Booking for Any Business{% endblock %}
+
+{% block content %}
+<div class="text-center py-20">
+    <h1 class="text-5xl font-bold text-gray-900 mb-4">
+        Accept bookings.<br>
+        <span class="text-indigo-600">Grow your business.</span>
+    </h1>
+    <p class="text-xl text-gray-500 mb-8">
+        Set up your booking page in minutes. No credit card required.
+    </p>
+    <a href="/accounts/signup/" 
+       class="bg-indigo-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-indigo-700">
+        Get Started Free
+    </a>
+</div>
+
+<!-- How it works -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+    <div class="text-center p-6 bg-white rounded-xl shadow-sm">
+        <div class="text-3xl mb-3">🏪</div>
+        <h3 class="font-semibold text-lg mb-2">Create your profile</h3>
+        <p class="text-gray-500 text-sm">Sign up and set up your business in minutes</p>
+    </div>
+    <div class="text-center p-6 bg-white rounded-xl shadow-sm">
+        <div class="text-3xl mb-3">📅</div>
+        <h3 class="font-semibold text-lg mb-2">Set your availability</h3>
+        <p class="text-gray-500 text-sm">Define your working hours and services</p>
+    </div>
+    <div class="text-center p-6 bg-white rounded-xl shadow-sm">
+        <div class="text-3xl mb-3">✅</div>
+        <h3 class="font-semibold text-lg mb-2">Receive bookings</h3>
+        <p class="text-gray-500 text-sm">Customers book directly from your page</p>
+    </div>
+</div>
+{% endblock %}

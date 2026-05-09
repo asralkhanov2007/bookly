@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Set Availability — Bookly{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+
+    <!-- Current availability -->
+    {% if availability %}
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+        <h3 class="font-semibold text-lg mb-4">Current Availability</h3>
+        <div class="space-y-2">
+            {% for slot in availability %}
+                <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                    <span class="font-medium">{{ slot.get_day_of_week_display }}</span>
+                    <span class="text-gray-500">
+                        {% if slot.is_available %}
+                            {{ slot.start_time|time:"H:i" }} — {{ slot.end_time|time:"H:i" }}
+                        {% else %}
+                            <span class="text-red-400">Closed</span>
+                        {% endif %}
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Add availability -->
+    <div class="bg-white rounded-xl shadow-sm p-8">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold">Add Availability</h2>
+            <a href="/dashboard/" class="text-sm text-gray-500 hover:text-indigo-600">← Back</a>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-5">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit"
+                    class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold">
+                Save Availability
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

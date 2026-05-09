@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard — {{ business.name }}{% endblock %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="flex items-center justify-between mb-8">
+    <div>
+        <h1 class="text-3xl font-bold text-gray-900">{{ business.name }}</h1>
+        <p class="text-gray-500 mt-1">
+            Your booking page: 
+            <a href="/{{ business.slug }}/" 
+               class="text-indigo-600 hover:underline" target="_blank">
+                bookly.com/{{ business.slug }}
+            </a>
+        </p>
+    </div>
+    <div class="flex gap-3">
+        <a href="{% url 'businesses:set_availability' %}" 
+           class="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 text-sm font-medium">
+            Set Availability
+        </a>
+        <a href="{% url 'businesses:add_service' %}" 
+           class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 text-sm font-medium">
+            + Add Service
+        </a>
+    </div>
+</div>
+
+<!-- Stats row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-sm p-6">
+        <p class="text-sm text-gray-500">Pending Bookings</p>
+        <p class="text-3xl font-bold text-indigo-600 mt-1">{{ bookings.count }}</p>
+    </div>
+    <div class="bg-white rounded-xl shadow-sm p-6">
+        <p class="text-sm text-gray-500">Active Services</p>
+        <p class="text-3xl font-bold text-indigo-600 mt-1">{{ services.count }}</p>
+    </div>
+    <div class="bg-white rounded-xl shadow-sm p-6">
+        <p class="text-sm text-gray-500">Available Days</p>
+        <p class="text-3xl font-bold text-indigo-600 mt-1">{{ availability.count }}</p>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <!-- Pending Bookings -->
+    <div class="bg-white rounded-xl shadow-sm p-6">
+        <h2 class="text-lg font-semibold mb-4">Pending Bookings</h2>
+        {% if bookings %}
+            <div class="space-y-3">
+                {% for booking in bookings %}
+                    <div class="border border-gray-100 rounded-lg p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="font-medium">{{ booking.customer_name }}</p>
+                                <p class="text-sm text-gray-500">{{ booking.service.name }}</p>
+                                <p class="text-sm text-gray-400 mt-1">
+                                    {{ booking.date }} at {{ booking.start_time|time:"H:i" }}
+                                </p>
+                            </div>
+                            <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">
+                                Pending
+                            </span>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">{{ booking.customer_email }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-8 text-gray-400">
+                <p class="text-4xl mb-2">📅</p>
+                <p>No pending bookings yet</p>
+                <p class="text-sm mt-1">Share your booking page to get started</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Services -->
+    <div class="bg-white rounded-xl shadow-sm p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold">Your Services</h2>
+            <a href="{% url 'businesses:add_service' %}" 
+               class="text-sm text-indigo-600 hover:underline">+ Add</a>
+        </div>
+        {% if services %}
+            <div class="space-y-3">
+                {% for service in services %}
+                    <div class="flex items-center justify-between border border-gray-100 rounded-lg p-4">
+                        <div>
+                            <p class="font-medium">{{ service.name }}</p>
+                            <p class="text-sm text-gray-500">
+                                {{ service.duration }} min · ${{ service.price }}
+                            </p>
+                        </div>
+                        <a href="{% url 'businesses:delete_service' service.id %}"
+                           class="text-red-400 hover:text-red-600 text-sm"
+                           onclick="return confirm('Delete this service?')">
+                            Delete
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-8 text-gray-400">
+                <p class="text-4xl mb-2">✂️</p>
+                <p>No services yet</p>
+                <a href="{% url 'businesses:add_service' %}" 
+                   class="text-sm text-indigo-600 hover:underline mt-1 block">
+                    Add your first service
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

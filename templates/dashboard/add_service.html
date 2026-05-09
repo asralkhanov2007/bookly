@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Add Service — Bookly{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-xl shadow-sm p-8">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold">Add a Service</h2>
+            <a href="/dashboard/" class="text-sm text-gray-500 hover:text-indigo-600">← Back to Dashboard</a>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-5">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ field.label }}
+                        {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                    </label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <p class="text-gray-400 text-xs mt-1">{{ field.help_text }}</p>
+                    {% endif %}
+                    {% if field.errors %}
+                        <p class="text-red-500 text-sm mt-1">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit"
+                    class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-semibold">
+                Add Service
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
