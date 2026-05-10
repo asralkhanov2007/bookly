@@ -11,4 +11,6 @@ urlpatterns = [
     path('dashboard/services/delete/<int:service_id>/', views.delete_service, name='delete_service'),
     path('dashboard/availability/', views.set_availability, name='set_availability'),
     path('<slug:slug>/', views.public_profile, name='public_profile'),
+    path('dashboard/bookings/<int:booking_id>/confirm/', views.confirm_booking, name='confirm_booking'),
+    path('dashboard/bookings/<int:booking_id>/cancel/', views.cancel_booking, name='cancel_booking'),
 ]

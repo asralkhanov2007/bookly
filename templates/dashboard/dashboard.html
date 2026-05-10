@@ -50,24 +50,34 @@
         <h2 class="text-lg font-semibold mb-4">Pending Bookings</h2>
         {% if bookings %}
             <div class="space-y-3">
-                {% for booking in bookings %}
-                    <div class="border border-gray-100 rounded-lg p-4">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <p class="font-medium">{{ booking.customer_name }}</p>
-                                <p class="text-sm text-gray-500">{{ booking.service.name }}</p>
-                                <p class="text-sm text-gray-400 mt-1">
-                                    {{ booking.date }} at {{ booking.start_time|time:"H:i" }}
-                                </p>
-                            </div>
-                            <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">
-                                Pending
-                            </span>
-                        </div>
-                        <p class="text-sm text-gray-500 mt-1">{{ booking.customer_email }}</p>
-                    </div>
-                {% endfor %}
+               {% for booking in bookings %}
+    <div class="border border-gray-100 rounded-lg p-4">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="font-medium">{{ booking.customer_name }}</p>
+                <p class="text-sm text-gray-500">{{ booking.service.name }}</p>
+                <p class="text-sm text-gray-400 mt-1">
+                    {{ booking.date }} at {{ booking.start_time|time:"H:i" }}
+                </p>
+                <p class="text-sm text-gray-400">{{ booking.customer_email }}</p>
             </div>
+            <span class="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">
+                Pending
+            </span>
+        </div>
+        <div class="flex gap-2 mt-3">
+            <a href="{% url 'businesses:confirm_booking' booking.id %}"
+               class="flex-1 text-center bg-green-500 text-white py-1.5 rounded-lg hover:bg-green-600 text-sm font-medium">
+                ✓ Confirm
+            </a>
+            <a href="{% url 'businesses:cancel_booking' booking.id %}"
+               class="flex-1 text-center bg-red-100 text-red-600 py-1.5 rounded-lg hover:bg-red-200 text-sm font-medium"
+               onclick="return confirm('Cancel this booking?')">
+                ✕ Cancel
+            </a>
+        </div>
+    </div>
+{% endfor %}
         {% else %}
             <div class="text-center py-8 text-gray-400">
                 <p class="text-4xl mb-2">📅</p>

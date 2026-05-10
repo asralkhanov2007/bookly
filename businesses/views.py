@@ -86,6 +86,24 @@ def set_availability(request):
         'availability': business.availability.all()
     })
 
+@login_required
+def confirm_booking(request, booking_id):
+    from bookings.models import Booking
+    booking = get_object_or_404(Booking, id=booking_id, business__owner=request.user)
+    booking.status = 'confirmed'
+    booking.save()
+    messages.success(request, f'Booking for {booking.customer_name} confirmed!')
+    return redirect('businesses:dashboard')
+
+@login_required
+def cancel_booking(request, booking_id):
+    from bookings.models import Booking
+    booking = get_object_or_404(Booking, id=booking_id, business__owner=request.user)
+    booking.status = 'cancelled'
+    booking.save()
+    messages.success(request, f'Booking for {booking.customer_name} cancelled.')
+    return redirect('businesses:dashboard')
+
 def public_profile(request, slug):
     business = get_object_or_404(Business, slug=slug)
     services = business.services.filter(is_active=True)
