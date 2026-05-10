@@ -32,11 +32,13 @@ import os
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost 127.0.0.1').split(' ')
 
 # Override database with Railway's env var if available
+import dj_database_url
+
 DATABASE_URL = os.environ.get('DATABASE_URL')
 if DATABASE_URL:
-    import dj_database_url
-    DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
-
+    DATABASES = {
+        'default': dj_database_url.config(default=DATABASE_URL)
+    }
 
 # Application definition
 
