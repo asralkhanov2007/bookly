@@ -28,6 +28,11 @@ DEBUG = False
 # Railway production settings
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost 127.0.0.1').split(' ')
 ALLOWED_HOSTS += ['healthcheck.railway.app', '.railway.app']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://web-production-56997.up.railway.app',
+]
+
 # Application definition
 
 INSTALLED_APPS = [
