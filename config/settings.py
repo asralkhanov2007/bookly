@@ -27,6 +27,7 @@ SECRET_KEY = 'django-insecure-l9xpm8j$#9j06e@l-ofw2w%j_*=!s2u!bp)q&l48f%&^)m#ri$
 DEBUG = False
 # Railway production settings
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost 127.0.0.1').split(' ')
+ALLOWED_HOSTS += ['healthcheck.railway.app', '.railway.app']
 # Application definition
 
 INSTALLED_APPS = [
